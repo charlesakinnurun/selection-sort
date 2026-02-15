@@ -1,4 +1,4 @@
-# 📘 Selection Sort – README
+#  Selection Sort
 
 ## 🔎 Overview
 
