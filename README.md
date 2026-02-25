@@ -1,4 +1,4 @@
-#  Selection Sort
+<!-- #  Selection Sort
 
 ## 🔎 Overview
 
@@ -224,3 +224,4 @@ Use Selection Sort when:
 
 Selection Sort is a straightforward sorting algorithm that repeatedly selects the smallest element and moves it into place.
 While inefficient for large datasets, it remains useful for education and situations where swap operations must be minimized.
+-->
