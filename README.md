@@ -1,229 +1,180 @@
-#  Selection Sort
+<h1 align="center">Bubble Sort</h1>
 
 ## Overview
 
-**Selection Sort** is a simple comparison-based sorting algorithm.
-It works by repeatedly selecting the **smallest element** from the unsorted portion of the list and placing it at the beginning.
+**Bubble Sort** is one of the simplest sorting algorithms.
+It repeatedly compares adjacent elements and swaps them if they are in the wrong order.
+
+With each pass through the list, the largest unsorted element “bubbles up” to its correct position at the end.
 
 It is known for being:
 
-* ✅ Easy to understand and implement
-* ✅ In-place (no extra memory needed)
-* ✅ Performs minimal swaps
+* ✅ Very easy to understand and implement
+* ✅ Useful for teaching sorting concepts
 * ❌ Inefficient for large datasets
-* ❌ Not stable by default
+* ❌ Slow compared to modern algorithms
 
 <a href="/src/main.py">Check out for source code</a>
 
 ---
 
-## ⚙️ How Selection Sort Works
+## ⚙️ How Bubble Sort Works
 
-### Step 1 — Find the Minimum Element
-
-Given an array:
-
-```
-[64, 25, 12, 22, 11]
-```
-
-The smallest value is `11`.
-
-Swap it with the first element:
-
-```
-[11, 25, 12, 22, 64]
-```
+1. Start from the beginning of the list
+2. Compare each pair of adjacent elements
+3. Swap them if they are out of order
+4. Continue until the end of the list
+5. Repeat passes until no swaps occur
 
 ---
 
-### Step 2 — Move to Next Position
+### Example Walkthrough
 
-Ignore the first element and repeat the process for the rest:
-
-Unsorted portion:
+Sort this list:
 
 ```
-[25, 12, 22, 64]
+[5, 3, 8, 4, 2]
 ```
 
-Smallest value: `12`
-
-Swap with position 2:
+**Pass 1**
 
 ```
-[11, 12, 25, 22, 64]
+[5, 3, 8, 4, 2]
+→ swap 5 & 3 → [3, 5, 8, 4, 2]
+→ swap 8 & 4 → [3, 5, 4, 8, 2]
+→ swap 8 & 2 → [3, 5, 4, 2, 8]
 ```
 
----
-
-### Step 3 — Repeat Until Sorted
-
-Continue selecting the minimum from the remaining elements.
-
-Final result:
+**Pass 2**
 
 ```
-[11, 12, 22, 25, 64]
+[3, 5, 4, 2, 8]
+→ swap 5 & 4 → [3, 4, 5, 2, 8]
+→ swap 5 & 2 → [3, 4, 2, 5, 8]
+```
+
+**Pass 3**
+
+```
+[3, 4, 2, 5, 8]
+→ swap 4 & 2 → [3, 2, 4, 5, 8]
+```
+
+**Pass 4**
+
+```
+[3, 2, 4, 5, 8]
+→ swap 3 & 2 → [2, 3, 4, 5, 8]
+```
+
+Sorted result:
+
+```
+[2, 3, 4, 5, 8]
 ```
 
 ---
 
 ## ⏱️ Time & Space Complexity
 
-| Case       | Time Complexity |
-| ---------- | --------------- |
-| Best Case  | O(n²)           |
-| Average    | O(n²)           |
-| Worst Case | O(n²)           |
+| Case                       | Time Complexity |
+| -------------------------- | --------------- |
+| Best Case (already sorted) | O(n)            |
+| Average Case               | O(n²)           |
+| Worst Case                 | O(n²)           |
 
-**Space Complexity:** O(1)
-
-Selection sort always performs the same number of comparisons regardless of input order.
+**Space Complexity:** O(1) (in-place)
 
 ---
 
-## 📁 Python Implementation
+## 🧠 Python Implementation
 
 ```python
-# %%
-import time
-
-# %%
-def selection_sort(arr):
-    # Selection Sort Algorithm
-    # The Algorithm divides the input list into two parts
-    # 1. A sorted sublist of items which is built up from the left to right
-    # 2. A sublist of the remaining unsorted items
-
-    # It works by repeatedly finding the minimum element from the unsorted part
-    # and putting it at the beginning
-
-
+def bubble_sort(arr):
     n = len(arr)
 
-    # Traverse through all array elements
-    # We loop up to n-1 because the last element will naturally be sorted
     for i in range(n):
-        # Assume the current position is i is the minimum
-        min_idx = i
+        swapped = False
 
-        # Visualize the start of a new pass
-        print(f"----- Pass {i +1}-----")
-        print(f"Current state: {arr}")
-        print(f"Scanning for the smallest element starting from index {i} (value: {arr[i]})")
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
 
-
-        # Traverse the unsorted part of the array to find the actual minimum
-        for j in range(i + 1, n):
-            # Comparison: Is the element at j smaller than our current minimum
-            if arr[j] < arr[min_idx]:
-                # Update min_idx if a smaller element is found
-                min_idx = j
-                print(f"New minimum found: {arr[min_idx]} at index {j}")
-
-        # Swap the found minimum element with first element of the unsorted part
-        # Only swap if the minimum is not alreay at the current position i
-        if min_idx != 1:
-            print(f"Swapping index {i} ({arr[i]}) with index {min_idx} ({arr[min_idx]})")
-            arr[i], arr[min_idx] = arr[min_idx], arr[i]
-        else:
-            print(f"Index {i} is alredy the minimum for this pass. No swap needed")
-
-        # Show visualization of the current array state
-        visualize_array(arr,i)
+        # Stop early if no swaps happened
+        if not swapped:
+            break
 
     return arr
 
-# %%
-def visualize_array(arr, sorted_up_to):
-    # Creates a bar-chart style visualization in the console
-    # "#" represents an element's value
-    # "|" marks the boundary of the sorted portion
 
-    print("Visualization")
-    max_val = max(arr) if arr else 0
-    for val in arr:
-        bar = "#" * val
-        print(f"{val:2}: {bar}")
-
-    # Print a divider to show what is sorted
-    boundary = "---" * (sorted_up_to + 1)
-    print(f"Sorted boundary: {boundary} | (elements to the left are sorted)")
-    time.sleep(0.5) # Pause briefly for effect
-
-# %%
-def run_example():
-    # Runs various test cases to demonstrate the algorithm
-
-    print("==========================================")
-    print("   SELECTION SORT PYTHON DEMONSTRATION    ")
-    print("==========================================")
-
-    # Example 1: Standard Unsorted List
-    test_1 = [29,10,24,37,13]
-    print("EXAMPLE 1: Standard List")
-    print(f"Initial: {test_1}")
-    result_1 = selection_sort(test_1)
-    print(f"Final Sorted Result: {result_1}")
-
-    # Illustration of Logic for a small set [5, 2, 8]
-    # 1. Start: [5, 2, 8]. i=0. Min is 5. Compare with 2. New Min=2. Compare with 8. Swap 5 and 2.
-    # 2. State: [2, 5, 8]. i=1. Min is 5. Compare with 8. No swap.
-    # 3. State: [2, 5, 8]. i=2. Last element. Done.
-
-    # Example 2: List with duplicates
-    test_2 = [3,1,2,1,3]
-    print("EXAMPLE 2: List with duplicates")
-    result_2 = selection_sort(test_1)
-    print(f"Final Sorted Result: {result_2}")
-
-    # Example 3: Already sorted list
-    test_3 = [1,2,3,4]
-    print("EXAMPLE 3: Already Sorted List")
-    result_3 = selection_sort(test_3)
-    print(f"Final Sorted List: {result_3}")
-
-# %%
-if __name__ == "__main__":
-    run_example()
-
-
-
+# Example usage
+numbers = [5, 3, 8, 4, 2]
+print(bubble_sort(numbers))
+# Output: [2, 3, 4, 5, 8]
 ```
 
+---
+
+## 🧪 Example Runs
+
+### Example 1
+
+Input:
+
+```
+[9, 1, 6, 7, 3]
+```
+
+Output:
+
+```
+[1, 3, 6, 7, 9]
+```
+
+### Example 2
+
+Input:
+
+```
+[4, 2, 2, 8, 1]
+```
+
+Output:
+
+```
+[1, 2, 2, 4, 8]
+```
 
 ---
 
 ## 👍 Advantages
 
-* Simple and intuitive
-* Uses minimal memory
-* Performs fewer swaps than bubble sort
-* Useful when memory writes are costly
+* Extremely simple to implement
+* Requires no extra memory
+* Detects already sorted arrays quickly (with optimization)
+* Useful for educational purposes
+
+---
 
 ## 👎 Disadvantages
 
 * Very slow for large datasets
-* Always O(n²) comparisons
-* Not adaptive to already sorted data
-* Not stable without modification
+* Performs many unnecessary comparisons
+* Inefficient compared to O(n log n) algorithms
 
 ---
 
-## 📌 When to Use Selection Sort
+## 📌 When to Use Bubble Sort
 
-Use Selection Sort when:
+Use Bubble Sort when:
 
 * Teaching sorting fundamentals
-* Working with very small datasets
-* Memory writes must be minimized
-* Simplicity is more important than speed
+* Working with very small lists
+* Simplicity matters more than performance
 
 ---
 
 ## 🏁 Summary
 
-Selection Sort is a straightforward sorting algorithm that repeatedly selects the smallest element and moves it into place.
-While inefficient for large datasets, it remains useful for education and situations where swap operations must be minimized.
--->
+Bubble Sort is one of the most basic sorting algorithms. While it is rarely used in production systems due to its inefficiency, it remains valuable for learning how sorting works and understanding algorithm complexity.
