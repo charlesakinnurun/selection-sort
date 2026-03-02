@@ -1,6 +1,6 @@
-#  Selection Sort
+<h1 align="center">Selection Sort</h1>
 
-## 🔎 Overview
+## Overview
 
 **Selection Sort** is a simple comparison-based sorting algorithm.
 It works by repeatedly selecting the **smallest element** from the unsorted portion of the list and placing it at the beginning.
@@ -12,6 +12,8 @@ It is known for being:
 * ✅ Performs minimal swaps
 * ❌ Inefficient for large datasets
 * ❌ Not stable by default
+
+<a href="/src/main.py">Check out for source code</a>
 
 ---
 
